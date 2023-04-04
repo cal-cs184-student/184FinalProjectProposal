@@ -22,76 +22,116 @@
 
     <body>
 
-        <h1 align="middle">CS 184 Final Project: Variable lens raytracing and enhanced camera features</h1> 
+        <h1 align="middle">CS 184 Final Project Proposal: Point Cloud to Mesh</h1> 
         <br />
         <h1>Members</h1>
         <p>
-            Amy Doo, Jordan Bell, Katlyn Ho, Su Latt Phone 
+            <table>
+                <tr>
+                    <td width="80px"> Yinghao </td>
+                    <td> <i> zhangyinghao@berkeley.edu </i> </td>
+                </tr>
+            </table>
         </p>
         <h1>Summary</h1>
         
         <p>
-            Our project idea is to add functionality to the ray tracing engine that will allow it to render images as if the camera lens was composed of physical lenses rather than an approximation of lenses, while also being able to have the set of lenses used be based on user input. Additionally, we plan to add additional features that a real camera has, such as auto and pre-defined focus, flash, and auto brightness.
+            Our proposed project aims to implement the conversion from point cloud to mesh formats.
+            By implementing this conversion process, we aim to enhance the flexibility and compatibility 
+            of 3D object representation in various applications, enabling users to work with the format 
+            that suits their needs best.
         </p>
         
         <h1>
             Problem Description
         </h1>
         <p>
-            In project 3, we modeled our camera as either having perfectly straight rays, or as having a single perfectly focused lens. In the real world, lenses are not so simple, and if we wanted to test what effect certain lens configurations could have on an image we would be unable to use the tool. By extending the raytracer to ray trace through physical lenses, we gain the ability to test lens effects before physically creating them, saving us from having to construct physical lenses or needing to work out complex math to determine the effect that it could have on the image. To extend this idea, we are implementing other characteristics of a camera to further help simulate physical cameras’ effects on images. These effects will be challenging as we will need to implement the various rules for light refracting through lenses, for every possible lens and for every set of lens configurations. We plan to implement these features by extending the project 3 raytracer. If we change how rays are generated before being sent through the raytracer, we can keep most of the features that we implemented before and prevent having to reimplement things. For changing focus, we can do some preprocessing on the image to determine possible pre-defined focus, and for autofocus we can create a heuristic to compare various values of focus to help decide on an optimal one. For flash and auto brightness we can either add an additional light element to the scene at the location of the camera, or do additional post processing on the image for auto brightness where we adjust every final pixel in the image.
-
+            In computer graphics, a point cloud is a set of points in a 3D space, 
+            while a mesh is a set of triangles. 
+        </p>
+        <p>
+            The ability to convert between point cloud and mesh formats is essential 
+            as certain applications require a specific format. 
+            For example, point clouds are commonly used for capturing 3D data from real-world objects, 
+            while meshes are often used for rendering and animation purposes. 
+        </p>
+        <p>
+            Converting one format to the other requires a fundamental change in the data structure, 
+            which can be complex and computationally expensive. 
+            Besides, the conversion process may result in a loss of information or introduce artifacts,
+            which is undesirable when we persue an equivalent conversion.
+        </p>
+        <p>
+            To achieve this goal, we plan to implement an existing algorithm that can accurately 
+            convert between point cloud and mesh formats. Specifically, we plan to implement 
+            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the more challenging paper</a>
+            mentioned in the Final Project Idea.
         </p>
         
         <h2 align="middle">Goals and Deliverables</h2>
         <h3>Part 1: Baseline Plan</h3>
         <p>
-            Our main goal with this project is to extend the raytracer we had previously implemented to include additional features, such as autofocus, manual focus, and flash that can simulate the capabilities of a physical camera. Some deliverables would include before and after images for flash and short videos demonstrating how autofocus and manual focus can be used and how they can change the image. Our baseline plan for these features would be having them all as command line arguments. 
+            We plan to develop a robust and efficient algorithm for converting point cloud to mesh and 
+            mesh to point cloud formats. The algorithm should be accurate and reliable. We plan to use 
+            Python to implement it to fully utilize the computational resources in an easy way.
+            Another goal is to reduce data loss and introduce minimal artifacts during the conversion process. 
+            The converted data should maintain its original quality, including texture, curvature, 
+            and features, as much as possible.
         </p>
         <p>
-            To measure the performance, we are going to do a comparison of different lens configurations and ensure that the runtime should be around the same for all of them. For the quality, we will be basing it off of similar tests in the spec since the work done in this past project is a baseline for what we plan to implement in our project.
+            At last, optimize the conversion process to improve its performance and 
+            reduce computational complexity. 
+            This optimization should be achieved through techniques such as 
+            surface reconstruction and mesh simplification, minimizing the 
+            loss of data and improving the quality of the output.
+        </p>
+        <p>
+            To measure the performance, we will compute: Hausdorff distance between our result and the reference data,
+            running time, and scalability of our algorithm by measuring its performance on datasets of varying sizes.
+        </p>
+        <p>
+            We will document the algorithm development process, including the research, 
+            implementation, optimization, and evaluation, in a report or paper. 
+            The documentation will enable others to understand and replicate our work.
         </p>
         
         
         <h3>Part 2: Inspirational Plan</h3>
         <p>
-            As mentioned in our baseline plan, our main goal is to “extend the raytracer we had previously implemented to include additional features, 
-            such as autofocus, manual focus, and flash that can simulate the capabilities of a physical camera.”  On top of these, if things go well 
-            and we have more time to further extend this project, for a new feature, we would like to try post-processing on the produced images for 
-            automatic brightness.  We will set a certain threshold to determine the middle ground for brightness to brighten an image if it’s too dark 
-            or darken an image if it’s too bright.<br /> To improve our current baseline plan, we would aim to convert parameter-setting on the terminal command 
-            line into an interactive part of the GUI in which the user can turn a dial or slider to change the focus or click a key or button to autofocus 
-            or enable flash.
-
+            We plan to also implement:
+            <ol>
+                <li> The conversion from meshes to point clouds where directly using the vertices in meshes is not enough.</li>
+                <li> 3D reconstruction from imagse to point clouds, using NeRF-like techniques, and then to meshes. Thus the overall pipeline is reconstruction from 2D images to 3D meshes. </li>
+            </ol>
         </p>
 
         <h3>Schedule</h3>
         
             <ul>
-               <li> Week 1: 4/5 - 4/10</li>
-                <li>Proposal due 4/9</li>
+               <li> Week 1: 4/2 - 4/8</li>
                 <ul>
-                    <li>Jordan Bell: Title Summary, Problem Description, Goals and deliverables part 1</li>
-                    <li>Katlyn Ho: Goals and deliverables part 1, Tasks</li>
-                    <li>Su Latt: Goals and deliverables part 2</li>
-                    <li>Amy Doo: Resources</li>
+                    <li>Proposal due 4/4, starter code</li>
                 </ul>
-              <li>Week 2: 4/11 - 4/17</li>
-              <ul><li>Proposal revisions + outline code</li></ul>
-              <li>Week 3: 4/18 - 4/24</li>
+              <li>Week 2: 4/9 - 4/15</li>
+              <ul><li>Outline code</li></ul>
+              <li>Week 3: 4/16 - 4/22</li>
               <ul><li>Continue working on code + milestone</li></ul>
-              <li>Week 4: 4/25 - 5/1</li>
-              <ul><li>Milestone due 4/27 + continue working on code</li></ul>
-              <li>Week 5: 5/2 - 5/8</li>
-              <ul><li>Finalize code + final presentations 5/6</li></ul>
-              <li>Week 6: 5/9 - 5/11</li>
-              <ul><li>Final deliverables due 5/11</li></ul>
+              <li>Week 4: 4/23 - 4/29</li>
+              <ul><li>Milestone due 4/25 + continue working on code</li></ul>
+              <li>Week 5: 4/30 - 5/6</li>
+              <ul><li>Finalize code + final presentations and final deliverables due 5/4</li></ul>
+              </ul>
             </ul>
 
         
         <h2 align="middle">Resources</h2>
         <p>
-            Our main reference will be an old <a href="https://cs184.eecs.berkeley.edu/sp16/article/19">spec</a> from a previous iteration of the class. We will be building off of someone’s ray tracer implementation from Project 3.
-            We will also use this <a href=https://www1.cs.columbia.edu/CAVE/publications/pdfs/Nayar_CVPR92.pdf>paper</a> to help make our autofocus algorithm efficient. We were also referencing this <a href=https://cs184.eecs.berkeley.edu/sp21/lecture/15/cameras-and-lenses>lecture</a> for our lens-ray interactions and auto focus methods.
+            We will implement the algorithm described in 
+            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the paper</a>.
+            We will use <a href="http://graphics.stanford.edu/data/3Dscanrep/"> the Stanford 3D Scanning Repository</a> as 
+            our dataset.
+            Our advanced work needs to implement a NeRF-like algorithm, which is described in
+            <a href="https://github.com/Xharlie/pointnerf"> Point-NeRF</a>.
         </p>
 
     </body>
