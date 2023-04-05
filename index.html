@@ -35,6 +35,10 @@
                     <td width="200px"> Yifan Wang </td>
                     <td> <i> wyf020803@berkeley.edu </i> </td>
                 </tr>
+                <tr>
+                    <td width="200px"> Tianzhe Chu </td>
+                    <td> <i> chutzh@berkeley.edu </i> </td>
+                </tr>
             </table>
         </p>
         <h1>Summary</h1>
@@ -102,13 +106,24 @@
         
         <h3>Part 2: Inspirational Plan</h3>
         <p>
-            We plan to also implement:
+            We also plan to extend the baseline plan to achieve the following goals:
             <ol>
-                <li> The conversion from meshes to point clouds where directly using the vertices in meshes is not enough.</li>
-                <li> 3D reconstruction from imagse to point clouds, using NeRF-like techniques, and then to meshes. Thus the overall pipeline is reconstruction from 2D images to 3D meshes. </li>
+                <li> Finding other mesh2point-clouds methods other than directly using the vertices in meshes</li>
+                <li> Extending the baseline pipeline(point clouds to meshes) to a 3-stage version: images->point clouds->meshes. The first
+                     stage can be solved by a existing NeRF-style method i.e. PointNeRF by Xu et al. 2022. 
+                </li>
             </ol>
         </p>
-
+        <h3>Goals</h3>
+        <p>
+            We expect our final work to be:
+            <ol>
+                For the first part, we expect equivalent rendering quality as the referred paper with optimized rendering speed.
+            </ol>
+            <ol>
+                For the second part, we don't expect any state-of-the-art result but hope to obtain a pipeline that works optimally.
+            </ol>
+        </p>
         <h3>Schedule</h3>
         
             <ul>
