@@ -62,7 +62,9 @@
 			which is the most challenging part of this project. The simple idea is that we will use set a hyperparameter r
             as radius
 			to construct a sphere, which will be "captured" by 3 points, and then we use these points to 
-			form a triangular face. By rolling the sphere on the surface of the point cloud, we construct faces step by step.
+			form a triangular face. 
+			Each step by rolling the sphere on the surface of the point cloud, we possibly construct a face 
+			(sometimes a face cannot be constructed due to unsatisfied conditions).
             The following figure shows the result of different number of steps.
 		</p>
 		<div align="center">
@@ -70,11 +72,11 @@
 				<tr>
 					<td align="middle">
 						<img src="./images/2000-1.png" width="400px" />
-						<figcaption align="middle">2000 faces</figcaption>
+						<figcaption align="middle">2000 steps</figcaption>
 					</td>
 					<td align="middle">
 						<img src="./images/4400.png" width="400px" />
-						<figcaption align="middle">4400 faces</figcaption>
+						<figcaption align="middle">4400 steps</figcaption>
 					</td>
 				</tr>
 			</table>
@@ -106,8 +108,8 @@
 		<p>
 			By analysis, we can find the following problems:
 			<ol>
-                <li>The number of faces generated matters, but we can't reconstruct the mesh accurately by simply adding
-					more faces. We can compare the 4000 faces with 4400 faces. We can find that 4400 faces are more accurate,
+                <li>The number of steps matters, but we can't reconstruct the mesh accurately by simply adding
+					more steps. We can compare the 4000 steps with 4400 steps. We can find that 4400 steps are more accurate,
 					but the ear part is still not reconstructed well. 
 				</li>
 				<div align="center">
@@ -115,11 +117,11 @@
 						<tr>
 							<td align="middle">
 								<img src="./images/4000-1.png" width="400px" />
-								<figcaption align="middle">4000 faces</figcaption>
+								<figcaption align="middle">4000 steps</figcaption>
 							</td>
 							<td align="middle">
 								<img src="./images/4400.png" width="400px" />
-								<figcaption align="middle">4400 faces</figcaption>
+								<figcaption align="middle">4400 steps</figcaption>
 							</td>
 						</tr>
 					</table>
