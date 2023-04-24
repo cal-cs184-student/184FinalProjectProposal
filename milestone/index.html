@@ -128,10 +128,18 @@
 					the faces formed by the point will be small. If the points are sparse in some area, 
 					the sphere is not captured and leads to a hole in the mesh.
 					But if we set r too large, the sphere will be too large. Some sunkens are omitted (imagine a large tire 
-                    rolling on uneven ground). Next we will try to use incresing r to fix this.
+                    rolling on uneven ground). 
 				</li>
             </ol>
 		</p>
+
+        <h1>Plan</h1>
+        <ol>
+            <li> Find out why ears and feet do not seem decent. Our guess is about the conditions to create a triangle.  </li>
+            <li> Use incresing r in different steps to fix the problem of constant r. </li>
+            <li> Add some pre-processing to the input. The paper mentioned this but did not give details. </li>
+            <li> Measure the result through some metrics. </li>
+        </ol>
 
     </body>
 </html>
