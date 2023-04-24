@@ -24,114 +24,23 @@
 
         <h1 align="middle">CS 184 Final Project Milestone</h1> 
         <br />
-        <h1>Members</h1>
-        <p>
-            <table>
-                <tr>
-                    <td width="200px"> Yinghao </td>
-                    <td> <i> zhangyinghao@berkeley.edu </i> </td>
-                </tr>
-                <tr>
-                    <td width="200px"> Yifan Wang </td>
-                    <td> <i> wyf020803@berkeley.edu </i> </td>
-                </tr>
-                <tr>
-                    <td width="200px"> Tianzhe Chu </td>
-                    <td> <i> chutzh@berkeley.edu </i> </td>
-                </tr>
-                <tr>
-                    <td width="200px"> Xueyang Yu </td>
-                    <td> <i> yuxy@berkeley.edu </i> </td>
-                </tr>
-            </table>
-        </p>
         <h1>Summary</h1>
         
         <p>
             Our proposed project aims to implement the conversion from point cloud to mesh formats.
             By implementing this conversion process, we aim to enhance the flexibility and compatibility 
             of 3D object representation in various applications, enabling users to work with the format 
-            that suits their needs best.
-        </p>
-        
-        <h1>
-            Problem Description
-        </h1>
-        <p>
-            In computer graphics, a point cloud is a set of points in a 3D space, 
-            while a mesh is a set of triangles. 
-        </p>
-        <p>
-            The ability to convert between point cloud and mesh formats is essential 
-            as certain applications require a specific format. 
-            For example, point clouds are commonly used for capturing 3D data from real-world objects, 
-            while meshes are often used for rendering and animation purposes. 
-        </p>
-        <p>
-            Converting one format to the other requires a fundamental change in the data structure, 
-            which can be complex and computationally expensive. 
-            Besides, the conversion process may result in a loss of information or introduce artifacts,
-            which is undesirable when we persue an equivalent conversion.
-        </p>
-        <p>
-            To achieve this goal, we plan to implement an existing algorithm that can accurately 
-            convert between point cloud and mesh formats. Specifically, we plan to implement 
-            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the more challenging paper</a>
+            that suits their needs best. We implement 
+            <a href="https://vgc.poly.edu/~csilva/papers/tvcg99.pdf"> the paper</a>
             mentioned in the Final Project Idea.
         </p>
         
-        <h2 align="middle">Goals and Deliverables</h2>
-        <h3>Part 1: Baseline Plan</h3>
-        <p>
-            We plan to develop a robust and efficient algorithm for converting point cloud to mesh and 
-            mesh to point cloud formats. The algorithm should be accurate and reliable. We plan to use 
-            Python to implement it to fully utilize the computational resources in an easy way.
-            Another goal is to reduce data loss and introduce minimal artifacts during the conversion process. 
-            The converted data should maintain its original quality, including texture, curvature, 
-            and features, as much as possible.
-        </p>
-        <p>
-            At last, optimize the conversion process to improve its performance and 
-            reduce computational complexity. 
-            This optimization should be achieved through techniques such as 
-            surface reconstruction and mesh simplification, minimizing the 
-            loss of data and improving the quality of the output.
-        </p>
-        <p>
-            To measure the performance, we will compute: Hausdorff distance between our result and the reference data,
-            running time, and scalability of our algorithm by measuring its performance on datasets of varying sizes.
-        </p>
-        <p>
-            We will document the algorithm development process, including the research, 
-            implementation, optimization, and evaluation, in a report or paper. 
-            The documentation will enable others to understand and replicate our work.
-        </p>
         
         
-        <h3>Part 2: Inspirational Plan</h3>
-        <p>
-            We also plan to extend the baseline plan to achieve the following goals:
-            <ol>
-                <li> Finding other mesh2point-clouds methods other than directly using the vertices in meshes</li>
-                <li> Extending the baseline pipeline(point clouds to meshes) to a 3-stage version: images->point clouds->meshes. The first
-                    stage can be solved by a existing NeRF-style method i.e. PointNeRF by Xu et al. 2022. 
-                </li>
-            </ol>
-        </p>
-        <h3>Goals</h3>
-        <p>
-            Our expectations are as follows:
-            <ol>
-                <li>For the first part, we expect equivalent rendering quality as the referred paper with optimized rendering speed.</li>
-
-                <li>For the second part, we don't expect any state-of-the-art result but hope to obtain a pipeline that works optimally.</li>   
-            </ol>
-        </p>
-        
-		<h2 align="middle">Milestone</h2>
+		<h1>Milestone</h1>
 		<p>
-			We firstly use the original mesh as input to generate a point cloud. 
-			The input and the output are both in .obj format, which is shown in the following figure.
+			We firstly use the original mesh as input to generate a point cloud with vertex normals as the input of our algorithm, 
+			which is shown in the following figures.
 		</p>
 
 		<div align="center">
@@ -149,11 +58,12 @@
 			</table>
 		</div>
 		<p>
-			After that, we use the point cloud as input to reconstruct a mesh, 
+			After that, we use the point cloud with vertex normals as input to reconstruct a mesh, 
 			which is the most challenging part of this project. The simple idea is that we will use set a hyperparameter r
-			to construct a sphere, which will be limited by 3 points, and then we will use the points to 
-			construct a face. By rolling the sphere in the point cloud, we will get a mesh. We can control the the number
-			of faces we wish to get. The following figure shows the result of different number of faces.
+            as radius
+			to construct a sphere, which will be "captured" by 3 points, and then we use these points to 
+			form a triangular face. By rolling the sphere on the surface of the point cloud, we construct faces step by step.
+            The following figure shows the result of different number of steps.
 		</p>
 		<div align="center">
 			<table style="width:100%">
@@ -170,9 +80,9 @@
 			</table>
 		</div>
 		<p>
-			Clearly, with more faces generated, the mesh will be more accurate. But we can  find even with 4400 faces, we still
-			cannot get a perfect mesh. Compare with the original mesh, we can find that the main body, which is more smooth and 
-			continuous, is more easy to reconstruct. While the small details, such as the ears or the feet, are more difficult to
+			Clearly, with more faces generated, the mesh will be more accurate. But we can  find even with 4400 steps where our algorithm converges, we still
+			cannot get a perfect mesh. Compared with the original mesh, we can find that the main body, which is smoother and 
+			more continuous, is more easy to reconstruct. While the small details, such as the ears or the feet, are more difficult to
 			reconstruct.
 		</p>
 		<div align="center">
@@ -215,10 +125,10 @@
 					</table>
 				</div>
 				<li>The hyperparameter r is also important. We can find that if we set r too small, the sphere will be too small,
-					the faces formed by the point will be small, if the points are sparse in some area, 
-					we will just miss the points and lead to a hole in the mesh.
-					And if we set r too large, the sphere will be too large, will miss the points in the dense area 
-					on the contrary. So it is important to find a proper r.
+					the faces formed by the point will be small. If the points are sparse in some area, 
+					the sphere is not captured and leads to a hole in the mesh.
+					But if we set r too large, the sphere will be too large. Some sunkens are omitted (imagine a large tire 
+                    rolling on uneven ground). Next we will try to use incresing r to fix this.
 				</li>
             </ol>
 		</p>
