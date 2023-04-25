@@ -22,7 +22,7 @@
 
     <body>
 
-        <h1 align="middle">CS 184 Final Project Milestone</h1> 
+        <h1 align="middle">CS 184 Final Project</h1> 
         <br />
         <h1>Members</h1>
         <p>
@@ -57,7 +57,57 @@
             mentioned in the Final Project Idea.
         </p>
         
+        <h1>
+            Problem Description
+        </h1>
+        <p>
+            In computer graphics, a point cloud is a set of points in a 3D space, 
+            while a mesh is a set of triangles. 
+        </p>
+        <p>
+            The ability to convert between point cloud and mesh formats is essential 
+            as certain applications require a specific format. 
+            For example, point clouds are commonly used for capturing 3D data from real-world objects, 
+            while meshes are often used for rendering and animation purposes. 
+        </p>
+        <p>
+            Converting one format to the other requires a fundamental change in the data structure, 
+            which can be complex and computationally expensive. 
+            Besides, the conversion process may result in a loss of information or introduce artifacts,
+            which is undesirable when we persue an equivalent conversion.
+        </p>
+        <p>
+            To achieve this goal, we plan to implement an existing algorithm that can accurately 
+            convert between point cloud and mesh formats. Specifically, we plan to implement 
+            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the more challenging paper</a>
+            mentioned in the Final Project Idea.
+        </p>
         
+        <h2 align="middle">Goals and Deliverables</h2>
+        <p>
+            We plan to develop a robust and efficient algorithm for converting point cloud to mesh and 
+            mesh to point cloud formats. The algorithm should be accurate and reliable. We plan to use 
+            Python to implement it to fully utilize the computational resources in an easy way.
+            Another goal is to reduce data loss and introduce minimal artifacts during the conversion process. 
+            The converted data should maintain its original quality, including texture, curvature, 
+            and features, as much as possible.
+        </p>
+        <p>
+            At last, optimize the conversion process to improve its performance and 
+            reduce computational complexity. 
+            This optimization should be achieved through techniques such as 
+            surface reconstruction and mesh simplification, minimizing the 
+            loss of data and improving the quality of the output.
+        </p>
+        <p>
+            To measure the performance, we will compute: Hausdorff distance between our result and the reference data,
+            running time, and scalability of our algorithm by measuring its performance on datasets of varying sizes.
+        </p>
+        <p>
+            We will document the algorithm development process, including the research, 
+            implementation, optimization, and evaluation, in a report or paper. 
+            The documentation will enable others to understand and replicate our work.
+        </p>
         
 		<h1>Milestone</h1>
 		<p>
@@ -164,6 +214,8 @@
             <li> Add some pre-processing to the input. The paper mentioned this but did not give details. </li>
             <li> Measure the result through some metrics. </li>
         </ol>
+
+		<h1>Final Result</h1>
 
     </body>
 </html>
