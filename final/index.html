@@ -62,122 +62,7 @@
             mentioned in the Final Project Idea.
         </p>
 
-        <h1> Technical approach </h1>
-        <p>
-            The algorithm follows from a simple idea: Imagine a ball rolling over the outer surface of the point cloud.
-        </p>
-        <strong><p> Seed triangle </p></strong>
-        <p>
-            A ball with a specific radius can be "captured" by three points, i.e. given the radius, we can 
-            determine an only sphere (possibly not exist) on the outer surface that passes through these three points. 
-            We call this sphere the "captured sphere" of these three points. 
-            Suppose we find three points and their captured sphere, such that there is no other point in the 
-            sphere, then we can construct a triangular face with these three points. We call this triangle a 
-            "seed triangle". We regard seed triangles as part of the final mesh.
-        </p>
-        <strong><p> Expanding triangles </p></strong>
-        <p>
-            After we construct a seed triangle, we can expand it by rolling the ball on any edge (u,v) of the triangle
-            on the outer surface of the point cloud. 
-            When the ball hit another point w, we say that the ball is captured by the three points u, v, w. 
-            And we construct a new triangle (u,v,w) and add it to the mesh. We call (u,v) the pivot edge.
-            We maintain the edges that can be a pivot edge later in a fringe.
-        </p>
-
-        These are the two core steps of the algorithm. Here we give the pseudo code of the algorithm we implemented, 
-        slightly different from the paper.
-        <div align="center">
-			<table style="width:100%">
-				<tr>
-					<td align="middle">
-						<img src="./images/pseudo_code.png" width="400px" />
-						<figcaption align="middle"> Pseudo code of our Ball Pivoting Algorithm</figcaption>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-        Now we give more details about the algorithm.
-        <strong><p> Radius List </p></strong>
-        <p>
-            It is obvious that the radius of the captured sphere is a key parameter of the algorithm.
-            If the raidus is too small, the ball is likely to fall through the holes of the point cloud instead
-            of rolling on the outer surface. 
-            If the radius is too large, in the limit case, infinitely large, the ball becomes a directed plane, 
-            and the algorithm will generate the convex hull of the point cloud.
-            Therefore, we begin with a relative small radius, and gradually increase it. 
-            The smaller radius may result in many holes on the mesh, which can be filled later by larger radius.
-        </p>
-
-        <strong><p> Selection of seed triangle </p></strong>
-        <p> 
-            We use a simple strategy to select the seed triangle. 
-            We first select a point p sequentially, and find all points within 2*r of p. 
-            We call them the neighbors of p. 
-            Then we select a neighbor q of p, and find all points within 2*r of q.
-            We enumerate them as t, and find the captured sphere of p, q, t.
-            If there is no other point in the sphere, we construct a seed triangle (p,q,t).
-        </p>
-
-        <strong><p> Spatial Queries </p></strong>
-        <p>
-            In selection of seed triangles we need to find all points within 2*r of a point.
-            We use a grid data structure to accelerate this process.
-            We divide the whole space into small cubes with side length 2*r.
-            Then we can say that, the neighbors of a point p must be in the same cube as p, or in the 26 cubes 
-            near p's cube.
-            A hash table is used to map a coordinate to a cube.
-            Note that we need to re-build this data structure when the radius changes.
-        </p>
-
-        <strong><p> Findind hit point in expanding triangles </p></strong>
-        <p>
-            When we expand a triangle (u,v,w) on edge (u,v), we simulate a ball rolling 
-            on (u,v) and find the next hit point. Say the center of the captured sphere of 
-            u, v, w is c.
-        </p>
-        <p>
-            We first find all points within 2*r of u and v. 
-            For each such point t, we find the captured sphere of u, v, t. 
-            Say the center of the sphere is d. 
-            We compute the dihedral angle c-(u,v)-d which we implement by hand.
-            This angle is the angle that the ball will roll on (u,v) till it hits t.
-            We select the point t with the smallest angle. 
-            If the hit point t is not the same as w, we claim that the ball captured by u, v, t 
-            contains no other point. Then we construct a new triangle (u,v,t) and add it to the mesh.
-        </p>
-
-        <strong><p> Computing the captured sphere </p></strong>
-        <p>
-            Given three points u, v, w and the radius r, 
-            we need to find the center of the captured sphere.
-        </p>
-        <p>
-            The distances between the center and the three points are all the same, which means 
-            the center is on the line perpendicular to the plane (u,v,w) passing through the
-            circumcenter of triangle (u,v,w).
-            We can compute the circumcenter of (u,v,w) by formula.
-            Then we can easily find the "height" of the center above the plane (u,v,w) by Pythagorean theorem.
-            Finally we can find the center by the height and the circumcenter.
-            In implementation we define every triangle to be directed, i.e. the three points are in clockwise order.
-            The sphere must be ABOVE the plane (u,v,w).
-        </p>
-        
-        <strong><p> Avoiding repeated triangles </p></strong>
-        <p>
-            Suppose u-v-w is part of the fringe, and we expand on edge (u,v) to hit point w,
-            and then we expand on edge (v,w) to hit point u. 
-            Then we will construct two triangles (u,v,w) and (v,w,u), which are the same.
-            This is very likely to happen during the inner loop of the algorithm. 
-        </p>
-        <p>
-            To avoid this, we use the half-edge structure taught in class.
-            We maintain the map from each half-edge to its face. 
-            When we expand on an edge, we check whether there is a face containing the halfedge.
-            If there is, we skip the expansion.
-        </p>
-        
-		<h1>Milestone</h1>
+        <h1>Milestone</h1>
 		<p>
 			We firstly use the original mesh as input to generate a point cloud with vertex normals as the input of our algorithm, 
 			which is shown in the following figures.
@@ -231,60 +116,137 @@
 			<table style="width:100%">
 				<tr>
 					<td align="middle">
-						<img src="./images/4400-tail.png" width="400px" />
+						<img src="./images/4400-tail.png" width="320px" />
 						<figcaption align="middle">main body</figcaption>
 					</td>
 					<td align="middle">
-						<img src="./images/4400-ear-back.png" width="400px" />
+						<img src="./images/4400-ear-back.png" width="320px" />
 						<figcaption align="middle">ear part</figcaption>
 					</td>
 					<td align="middle">
-						<img src="./images/4400-feet.png" width="400px" />
+						<img src="./images/4400-feet.png" width="320px" />
 						<figcaption align="middle">feet part</figcaption>
 					</td>
 				</tr>
 			</table>
 		</div>
-		<p>
-			By analysis, we can find the following problems:
-			<ol>
-                <li>The number of steps matters, but we can't reconstruct the mesh accurately by simply adding
-					more steps. We can compare the 4000 steps with 4400 steps. We can find that 4400 steps are more accurate,
-					but the ear part is still not reconstructed well. 
-				</li>
-				<div align="center">
-					<table style="width:100%">
-						<tr>
-							<td align="middle">
-								<img src="./images/4000-1.png" width="400px" />
-								<figcaption align="middle">4000 steps</figcaption>
-							</td>
-							<td align="middle">
-								<img src="./images/4400.png" width="400px" />
-								<figcaption align="middle">4400 steps</figcaption>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<li>The hyperparameter r is also important. We can find that if we set r too small, the sphere will be too small,
-					the faces formed by the point will be small. If the points are sparse in some area, 
-					the sphere is not captured and leads to a hole in the mesh.
-					But if we set r too large, the sphere will be too large. Some sunkens are omitted (imagine a large tire 
-                    rolling on uneven ground). 
-				</li>
-            </ol>
-		</p>
 
-        <h1>Milestone Video and Slides</h1>
+        <h1> Final Technical approach </h1>
         <p>
-            Here is the link of our video and slides:
-            <ol>
-                <li> <a href="https://drive.google.com/file/d/1ZMtRtPHGASHo7fvJZ6OqPM6ov5oq7cGB/view?usp=share_link"> Video</a></li>
-                <li> <a href="https://docs.google.com/presentation/d/17OF_YV9kanWIKgiX_48YFhn5fK-O_WImtf2a6FW65vY/edit?usp=sharing"> Slides</a></li>
-            </ol>
+            The algorithm follows from a simple idea: Imagine a ball rolling over the outer surface of the point cloud.
+        </p>
+        <strong><p> Seed triangle </p></strong>
+        <p>
+            A ball with a specific radius can be "captured" by three points, i.e. given the radius, we can 
+            determine an only sphere (possibly not exist) on the outer surface that passes through these three points. 
+            We call this sphere the "captured sphere" of these three points. 
+            Suppose we find three points and their captured sphere, such that there is no other point in the 
+            sphere, then we can construct a triangular face with these three points. We call this triangle a 
+            "seed triangle". We regard seed triangles as part of the final mesh.
+        </p>
+        <strong><p> Expanding triangles </p></strong>
+        <p>
+            After we construct a seed triangle, we can expand it by rolling the ball on any edge (u,v) of the triangle
+            on the outer surface of the point cloud. 
+            When the ball hit another point w, we say that the ball is captured by the three points u, v, w. 
+            And we construct a new triangle (u,v,w) and add it to the mesh. We call (u,v) the pivot edge.
+            We maintain the edges that can be a pivot edge later in a fringe.
         </p>
 
-        <h1>Results</h1>
+        These are the two core steps of the algorithm. Here we give the pseudo code of the algorithm we implemented, 
+        slightly different from the paper.
+        <div align="center">
+			<table style="width:100%">
+				<tr>
+					<td align="middle">
+						<img src="./images/pseudo_code.png" width="400px" />
+						<figcaption align="middle"> Pseudo code of our Ball Pivoting Algorithm</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+        Now we give more details about the algorithm.
+        <strong><p> Radius List </p></strong>
+        <p>
+            It is obvious that the radius of the captured sphere is a key parameter of the algorithm.
+            If the radius is too small, the ball is likely to fall through the holes of the point cloud instead
+            of rolling on the outer surface. 
+            If the radius is too large, in the limit case, infinitely large, the ball becomes a directed plane, 
+            and the algorithm will generate the convex hull of the point cloud.
+            Therefore, we begin with a relative small radius, and gradually increase it. 
+            The smaller radius may result in many holes on the mesh, which can be filled later by larger radius.
+        </p>
+
+        <strong><p> Selection of seed triangle </p></strong>
+        <p> 
+            We use a simple strategy to select the seed triangle. 
+            We first select a point p sequentially, and find all points within 2*r of p. 
+            We call them the neighbors of p. 
+            Then we select a neighbor q of p, and find all points within 2*r of q.
+            We enumerate them as t, and find the captured sphere of p, q, t.
+            If there is no other point in the sphere, we construct a seed triangle (p,q,t).
+        </p>
+
+        <strong><p> Spatial Queries </p></strong>
+        <p>
+            In selection of seed triangles we need to find all points within 2*r of a point.
+            We use a grid data structure to accelerate this process.
+            We divide the whole space into small cubes with side length 2*r.
+            Then we can say that, the neighbors of a point p must be in the same cube as p, or in the 26 cubes 
+            near p's cube.
+            A hash table is used to map a coordinate to a cube.
+            Note that we need to re-build this data structure when the radius changes.
+        </p>
+
+        <strong><p> Finding hit point in expanding triangles </p></strong>
+        <p>
+            When we expand a triangle (u,v,w) on edge (u,v), we simulate a ball rolling 
+            on (u,v) and find the next hit point. Say the center of the captured sphere of 
+            u, v, w is c.
+        </p>
+        <p>
+            We first find all points within 2*r of u and v. 
+            For each such point t, we find the captured sphere of u, v, t. 
+            Say the center of the sphere is d. 
+            We compute the dihedral angle c-(u,v)-d which we implement by hand.
+            This angle is the angle that the ball will roll on (u,v) till it hits t.
+            We select the point t with the smallest angle. 
+            If the hit point t is not the same as w, we claim that the ball captured by u, v, t 
+            contains no other point. Then we construct a new triangle (u,v,t) and add it to the mesh.
+        </p>
+
+        <strong><p> Computing the captured sphere </p></strong>
+        <p>
+            Given three points u, v, w and the radius r, 
+            we need to find the center of the captured sphere.
+        </p>
+        <p>
+            The distances between the center and the three points are all the same, which means 
+            the center is on the line perpendicular to the plane (u,v,w) passing through the
+            circumcenter of triangle (u,v,w).
+            We can compute the circumcenter of (u,v,w) by formula.
+            Then we can easily find the "height" of the center above the plane (u,v,w) by Pythagorean theorem.
+            Finally we can find the center by the height and the circumcenter.
+            In implementation we define every triangle to be directed, i.e. the three points are in clockwise order.
+            The sphere must be ABOVE the plane (u,v,w).
+        </p>
+        
+        <strong><p> Avoiding repeated triangles </p></strong>
+        <p>
+            Suppose u-v-w is part of the fringe, and we expand on edge (u,v) to hit point w,
+            and then we expand on edge (v,w) to hit point u. 
+            Then we will construct two triangles (u,v,w) and (v,w,u), which are the same.
+            This is very likely to happen during the inner loop of the algorithm. 
+        </p>
+        <p>
+            To avoid this, we use the half-edge structure taught in class.
+            We maintain the map from each half-edge to its face. 
+            When we expand on an edge, we check whether there is a face containing the halfedge.
+            If there is, we skip the expansion.
+        </p>
+
+        <h1>Final Results</h1>
         <p>
             Here is the video showing the process of reconstruction from point cloud to mesh:
             <td align="middle">
@@ -297,6 +259,13 @@
                     </object>
                 </video>
             </td>
+        </p>
+        <p>
+            Here is the link of our video and slides:
+            <ol>
+                <li> <a href="https://drive.google.com/file/d/1ZMtRtPHGASHo7fvJZ6OqPM6ov5oq7cGB/view?usp=share_link"> Video</a></li>
+                <li> <a href="https://docs.google.com/presentation/d/17OF_YV9kanWIKgiX_48YFhn5fK-O_WImtf2a6FW65vY/edit?usp=sharing"> Slides</a></li>
+            </ol>
         </p>
         <p>
             Here is the link showing our full results:
