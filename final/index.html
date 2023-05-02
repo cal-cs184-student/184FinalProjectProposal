@@ -22,8 +22,11 @@
 
     <body>
 
-        <h1 align="middle">CS 184 Final Project</h1> 
+        <h1 align="middle">Point cloud to mesh by Ball Pivoting Algorithm</h1> 
         <br />
+        <div align="center">
+            <img src="images/teaser.png" width="480px" />
+        </div>
         <div align="center">
             codebase: <a href="https://github.com/EthanZyh/Ball-Pivoting">https://github.com/EthanZyh/Ball-Pivoting</a>
         </div>
@@ -52,7 +55,7 @@
         <h1> Abstract </h1>
         
         <p>
-            Our proposed project aims to implement the conversion from point cloud to mesh format.
+            Our proposed project aims to implement the conversion from point cloud to mesh format using Python.
             Taking point cloud and vertex normals as input, we will reconstruct a mesh with the same 
             set of vertices and generated faces. Here the vertex normals point to the inside of the mesh.
             By implementing this conversion process, we aim to enhance the flexibility and compatibility 
@@ -62,7 +65,7 @@
             mentioned in the Final Project Idea.
         </p>
 
-        <h1>Milestone</h1>
+        <h1>Milestone results</h1>
 		<p>
 			We firstly use the original mesh as input to generate a point cloud with vertex normals as the input of our algorithm, 
 			which is shown in the following figures.
@@ -139,22 +142,34 @@
         <p>
             A ball with a specific radius can be "captured" by three points, i.e. given the radius, we can 
             determine an only sphere (possibly not exist) on the outer surface that passes through these three points. 
-            We call this sphere the "captured sphere" of these three points. 
+            We call this sphere the <b>"captured sphere"</b> of these three points. 
             Suppose we find three points and their captured sphere, such that there is no other point in the 
             sphere, then we can construct a triangular face with these three points. We call this triangle a 
-            "seed triangle". We regard seed triangles as part of the final mesh.
+            <b>"seed triangle"</b>. We regard seed triangles as part of the final mesh.
+            <i> 
+                We implement this part in the same way as the paper does. 
+            </i>
         </p>
         <strong><p> Expanding triangles </p></strong>
         <p>
             After we construct a seed triangle, we can expand it by rolling the ball on any edge (u,v) of the triangle
             on the outer surface of the point cloud. 
             When the ball hit another point w, we say that the ball is captured by the three points u, v, w. 
-            And we construct a new triangle (u,v,w) and add it to the mesh. We call (u,v) the pivot edge.
+            And we construct a new triangle (u,v,w) and add it to the mesh. We call (u,v) the <b> pivot edge</b>.
             We maintain the edges that can be a pivot edge later in a fringe.
+            <i> 
+                We only implement a subset of operations to the fringe, specifically, join operation and the 
+                first case of glue operation. This is because the other three cases of glue operation are 
+                necessary only when we want to reconstruct a mesh with boundary, while our experiments are 
+                all on closed meshes.
+            </i>
         </p>
 
-        These are the two core steps of the algorithm. Here we give the pseudo code of the algorithm we implemented, 
-        slightly different from the paper.
+        These are the two core steps of the algorithm. Here we give the pseudo code of the algorithm we implemented.
+        <i>
+            It is slightly different from the paper. The most essential difference is we use a list of 
+            radius, instead of only one, which we will explain later.
+        </i>
         <div align="center">
 			<table style="width:100%">
 				<tr>
@@ -182,10 +197,11 @@
         <p> 
             We use a simple strategy to select the seed triangle. 
             We first select a point p sequentially, and find all points within 2*r of p. 
-            We call them the neighbors of p. 
+            We call them the <b> neighbors</b> of p. 
             Then we select a neighbor q of p, and find all points within 2*r of q.
             We enumerate them as t, and find the captured sphere of p, q, t.
             If there is no other point in the sphere, we construct a seed triangle (p,q,t).
+            <i> This part is the same with the paper. </i>
         </p>
 
         <strong><p> Spatial Queries </p></strong>
@@ -197,6 +213,7 @@
             near p's cube.
             A hash table is used to map a coordinate to a cube.
             Note that we need to re-build this data structure when the radius changes.
+            <i> This part is the same with the paper. </i>
         </p>
 
         <strong><p> Finding hit point in expanding triangles </p></strong>
@@ -204,12 +221,15 @@
             When we expand a triangle (u,v,w) on edge (u,v), we simulate a ball rolling 
             on (u,v) and find the next hit point. Say the center of the captured sphere of 
             u, v, w is c.
+            <i>
+                The paper does not give the details of this part. We implement it in the following way.
+            </i>
         </p>
         <p>
             We first find all points within 2*r of u and v. 
             For each such point t, we find the captured sphere of u, v, t. 
             Say the center of the sphere is d. 
-            We compute the dihedral angle c-(u,v)-d which we implement by hand.
+            We compute the dihedral angle c-(u,v)-d.
             This angle is the angle that the ball will roll on (u,v) till it hits t.
             We select the point t with the smallest angle. 
             If the hit point t is not the same as w, we claim that the ball captured by u, v, t 
@@ -220,6 +240,9 @@
         <p>
             Given three points u, v, w and the radius r, 
             we need to find the center of the captured sphere.
+            <i>
+                The paper does not give the details of this part. We implement it in the following way.
+            </i>
         </p>
         <p>
             The distances between the center and the three points are all the same, which means 
@@ -244,6 +267,45 @@
             We maintain the map from each half-edge to its face. 
             When we expand on an edge, we check whether there is a face containing the halfedge.
             If there is, we skip the expansion.
+            <i>
+                This part is not in the paper. We implement it by ourselves.
+            </i>
+        </p>
+
+        <strong><p> Coordinate normalization </p></strong>
+        <p>
+
+            We normalize all the point coordinates to be in the range [0,10].
+            One reason is that the algorithm is highly based on float number computation and comparison.
+            This operation avoids points with very large coordinates, which may cause precision loss.
+            Another reason is that the algorithm is sensitive to the radius. After normalization, 
+            two meshes with approximately the same number of vertices are likely to work well with the same radius.
+            <i> 
+                The paper does not mention this. I came up with this idea myself.
+            </i>
+        </p>
+
+        <h2> Problems encountered and lessons learned </h2>
+        <p>
+            I misunderstood the vertex normals that an existing package "trimesh" provides. 
+            They pointed to the outside of the mesh, which was the opposite of the normals defined in the paper.
+            This caused the mesh to be inside out. The ball was actually rolling inside the mesh.
+            The reason it tooks me so long to find this bug is that the result of the buggy version looks
+            kind of reasonable, especially bunny's buttock and the main body of the teapot. 
+            These two parts are convex and very sphere-like, 
+            so the ball can roll smoothly inside them and generate a reasonable mesh.
+        </p>
+        <p>
+            Another problem is that I computed a wrong dihedral angle to find the hit point.
+            The correct angle should be c-(u,v)-d while I computed w-(u,v)-d at first
+            (same notation as Finding hit point in expanding triangles part).
+            This mistake was quite intuitive and only caused problems in some special cases.
+        </p>
+        <p>
+            A lesson I learned is that, when we implement an algorithm, we should always
+            add unit tests to make sure the result is what we expect, especially when using 
+            a third party package. It is too costy to debug previous stages after we find 
+            problems in final results.
         </p>
 
         <h1>Final Results</h1>
@@ -259,17 +321,6 @@
                     </object>
                 </video>
             </td>
-        </p>
-        <p>
-            Here is the link of our video and slides:
-            <ol>
-                <li> <a href="https://drive.google.com/file/d/1ZMtRtPHGASHo7fvJZ6OqPM6ov5oq7cGB/view?usp=share_link"> Video</a></li>
-                <li> <a href="https://docs.google.com/presentation/d/17OF_YV9kanWIKgiX_48YFhn5fK-O_WImtf2a6FW65vY/edit?usp=sharing"> Slides</a></li>
-            </ol>
-        </p>
-        <p>
-            Here is the link showing our full results:
-            <a href="https://drive.google.com/drive/folders/1sS_VQulc4rAOsnMdB3WCwOWO9XPYLyFM"> Results link</a>
         </p>
 
         <h1>References</h1>
