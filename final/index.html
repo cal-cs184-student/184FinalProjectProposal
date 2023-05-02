@@ -321,6 +321,44 @@
                     </object>
                 </video>
             </td>
+            To tackle the problems in the milestone, we find out that the direction of the normal vector is wrong, where makes the
+            outer surface of the mesh is inside out. We fix this problem by changing the direction of the normal vector.
+            Furthermore, we use the radius list to fix the problem that it is difficult to find a proper radius for all the meshes.
+            Therefore, we use the radius list to store radius from small to large and run the algorithm with each radius in the list.
+            We can see from the video above, at the beginning of the algorithm, the radius is small, so there will have lots of 
+            holes in the mesh since the radius is too small to cover the whole mesh. Then, as the radius increases, the holes will
+            be filled gradually.
+        </p>
+        <p>
+            Here is the link showing our full results:
+            <a href="https://drive.google.com/drive/folders/1sS_VQulc4rAOsnMdB3WCwOWO9XPYLyFM"> Results link</a>
+        </p>
+
+        <h1>What remains to be refined</h1>
+        <p>
+            We can see the reconstruction of teapot:
+            <div align="center">
+                <table style="width:100%">
+                    <tr>
+                        <td align="middle">
+                            <img src="./images/teapot-1.png" width="400px" />
+                            <figcaption align="middle"> The reconstruction of teapot</figcaption>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            We can see the red circles in the image above. It illustrates that our algorithm cannot deal with the corners in the mesh. Since we can't 
+            make the ball to the bottom of the corner, the algorithm cannot find the hit point. 
+            <div align="center">
+                <table style="width:100%">
+                    <tr>
+                        <td align="middle">
+                            <img src="./images/corner.png" width="400px" />
+                            <figcaption align="middle"> The reconstruction of teapot</figcaption>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </p>
 
         <h1>References</h1>
