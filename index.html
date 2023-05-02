@@ -1,23 +1,97 @@
-<html>
-	<head>
-	</head>
-	<body>
-		<h3>CS184/284A Final Project Webpages</h3>
-		<br><br>
-		<a href="/proposal/index.html">Proposal</a>
-		<br><br>
-		<a href="/milestone/index.html">Milestone</a>
-		<br><br>
-		<a href="/final/index.html">Final</a>
-	</body>
-	<script>
-		var links = document.body.getElementsByTagName("a")
-		var a = window.location.href.indexOf(".io")
-		var repo_name = window.location.href.substring(a+3)
-		for(var i = 0; i < links.length; i++){
-			var link = links[i]
-			var actual_name = link.href.substring(link.href.indexOf(".io")+4)
-			link.href = repo_name + actual_name
-		}
-	</script>
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Computer Graphics</title>
+
+  <meta name="author" content="Jon Barron">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Computer Graphics</name>
+              </p>
+              <p>
+				Hi all, this webpage is for the reports of CS184. The css style is from <a href="https://jonbarron.info/">Jon Baron</a>.
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <!-- <a href="images/homepage.png"><img style="width:100%;max-width:100%" alt="profile photo" src="images/homepage.png" class="hoverZoomLink"></a> -->
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <heading>Projects</heading>
+
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+			<tr>
+				<td style="padding:20px;width:25%;vertical-align:middle">
+				  <!-- <img src="proj1/images/lion.png" alt="PontTuset" width="160" style="border-style: none"> -->
+				</td>
+				<td width="75%" valign="middle">
+				  <a href="proposal/index.html" id="revisit">
+					<papertitle>Project Proposal</papertitle>
+				  </a>
+				  <br>
+				  <strong></strong>
+				  <br>
+				  <!-- <em>Feb 11, 2023</em> -->
+				  <br>
+				  <p></p>
+				</td>
+			  </tr>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+            <td width="75%" valign="middle">
+              <a href=milestone/index.html" id="revisit">
+                <papertitle>Milestone</papertitle>
+              </a>
+              <br>
+              <strong></strong>
+              <br>
+              <!-- <em>Mar 11, 2023</em> -->
+              <br>
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+            <td width="75%" valign="middle">
+              <a href="final/index.html" id="revisit">
+                <papertitle>Final Report</papertitle>
+              </a>
+              <br>
+              <strong></strong>
+              <br>
+              <!-- <em>Mar 24, 2023</em> -->
+              <br>
+              <p></p>
+            </td>
+          </tr>
+
+        </tbody>
+        </table>
+
+
+
+      </td>
+    </tr>
+  </table>
+</body>
+
 </html>

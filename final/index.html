@@ -18,6 +18,8 @@
         <title>CS 184 Rasterizer</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
     </head>
 
     <body>
@@ -134,7 +136,7 @@
 			</table>
 		</div>
 
-        <h1> Final Technical approach </h1>
+        <h1> Technical Approaches </h1>
         <p>
             The algorithm follows from a simple idea: Imagine a ball rolling over the outer surface of the point cloud.
         </p>
@@ -281,13 +283,13 @@
             Another reason is that the algorithm is sensitive to the radius. After normalization, 
             two meshes with approximately the same number of vertices are likely to work well with the same radius.
             <i> 
-                The paper does not mention this. I came up with this idea myself.
+                The paper does not mention this. We came up with this idea ourselves.
             </i>
         </p>
 
-        <h2> Problems encountered and lessons learned </h2>
+        <h2> Tackled Challenges </h2>
         <p>
-            I misunderstood the vertex normals that an existing package "trimesh" provides. 
+            We misunderstood the vertex normals that an existing package "trimesh" provides. 
             They pointed to the outside of the mesh, which was the opposite of the normals defined in the paper.
             This caused the mesh to be inside out. The ball was actually rolling inside the mesh.
             The reason it tooks me so long to find this bug is that the result of the buggy version looks
@@ -296,19 +298,13 @@
             so the ball can roll smoothly inside them and generate a reasonable mesh.
         </p>
         <p>
-            Another problem is that I computed a wrong dihedral angle to find the hit point.
-            The correct angle should be c-(u,v)-d while I computed w-(u,v)-d at first
+            Another problem is that we computed a wrong dihedral angle to find the hit point.
+            The correct angle should be c-(u,v)-d while we computed w-(u,v)-d at first
             (same notation as Finding hit point in expanding triangles part).
             This mistake was quite intuitive and only caused problems in some special cases.
         </p>
-        <p>
-            A lesson I learned is that, when we implement an algorithm, we should always
-            add unit tests to make sure the result is what we expect, especially when using 
-            a third party package. It is too costy to debug previous stages after we find 
-            problems in final results.
-        </p>
 
-        <h1>Final Results</h1>
+        <h1>Final Results and Visualization</h1>
         <p>
             Here is the video showing the process of reconstruction from point cloud to mesh:
             <td align="middle">
@@ -323,19 +319,18 @@
             </td>
         </p>
         <p>
-            To tackle the problems in the milestone, we find out that the direction of the normal vector is wrong, where makes the
-            outer surface of the mesh is inside out. We fix this problem by changing the direction of the normal vector.
+            To address the issues with the milestone, we discovered that the normal vector's direction was incorrect, causing the mesh's outer surface to be inside out. 
+            We resolved this problem by correcting the normal vector's direction.
         </p>
         <p>
-            Furthermore, we use the radius list to fix the problem that it is difficult to find a proper radius for all the meshes.
-            Therefore, we use the radius list to store radius from small to large and run the algorithm with each radius in the list.
-            We can see from the video above, at the beginning of the algorithm, the radius is small, so there will have lots of 
-            holes in the mesh since the radius is too small to cover the whole mesh. Then, as the radius increases, the holes will
-            be filled gradually.
+            Moreover, we employ the radius list to address the challenge of identifying an appropriate radius for all the meshes. 
+            Consequently, we utilize a list to store radius in ascending order and execute the algorithm using each radius in the list. 
+            As observed in the video above, the algorithm initially starts with a small radius, resulting in numerous holes in the mesh due to insufficient coverage. 
+            However, as the radius gradually increases, these blank spaces are progressively filled.
         </p>
         <p>
-            Here is the link showing our full results:
-            <a href="https://drive.google.com/drive/folders/1sS_VQulc4rAOsnMdB3WCwOWO9XPYLyFM"> Results link</a>
+            All our visualization results can be found in the following link. We store screenshots and videos for different shapes of point clouds including bunny, teapot and cow.
+            <a href="https://drive.google.com/drive/folders/1sS_VQulc4rAOsnMdB3WCwOWO9XPYLyFM"> Full Visualization Results Link</a>
         </p>
 
         <h1>What remains to be refined</h1>
@@ -364,7 +359,18 @@
                 </table>
             </div>
         </p>
-
+        <h1>Takeaways</h1>
+        <p>
+            As a takeaway, when we implement an algorithm, 
+            we should always add unit tests to make sure the result is what we expect, especially when using a third party package. 
+            It is much time-consuming to debug previous stages after we find problems in final results. 
+        </p>
+        <p>
+            While for the general point2mesh task, we think it interesting and worth to devote our efforts. 
+            In a higher level, it’s a perfect chance to dig into the area via searching for implementable methods to tackle a specific graphics task. 
+            Meanwhile, during the process, we find that some elegant algorithms often start from a simple heuristic, i.e. the one we implement, and oftentimes they work surprisingly well. 
+            Despite the hard debugging time, we still enjoy the process of implementing the algorithm and the final results.
+        </p>
         <h1>References</h1>
         <ol>
             <li> The paper of Ball Pivoting Algorithm. <a href="https://vgc.poly.edu/~csilva/papers/tvcg99.pdf">link</a> </li>
@@ -386,7 +392,7 @@
                 </tr>
                 <tr height="60px">
                     <td width="200px"> Tianzhe Chu </td>
-                    <td>  Slides and video construction  </td>
+                    <td>  Composing slides, videos, part of webpage content, polishing up words and webpage style  </td>
                 </tr>
                 <tr height="60px">
                     <td width="200px"> Xueyang Yu </td>
