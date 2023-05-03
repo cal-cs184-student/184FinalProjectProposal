@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <style>
+        body {
+            padding: 100px;
+            width: 1000px;
+            margin: auto;
+            text-align: left;
+            font-weight: 300;
+            font-family: 'Open Sans', sans-serif;
+            color: #121212;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        </style>
+        <title>CS 184 Rasterizer</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <h1 align="middle">CS 184 Final Project Proposal: Point Cloud to Mesh</h1> 
+        <br />
+        <h1>Members</h1>
+        <p>
+            <table>
+                <tr>
+                    <td width="200px"> Yinghao </td>
+                    <td> <i> zhangyinghao@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Yifan Wang </td>
+                    <td> <i> wyf020803@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Tianzhe Chu </td>
+                    <td> <i> chutzh@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Xueyang Yu </td>
+                    <td> <i> yuxy@berkeley.edu </i> </td>
+                </tr>
+            </table>
+        </p>
+        <h1>Summary</h1>
+        
+        <p>
+            Our proposed project aims to implement the conversion from point cloud to mesh formats.
+            By implementing this conversion process, we aim to enhance the flexibility and compatibility 
+            of 3D object representation in various applications, enabling users to work with the format 
+            that suits their needs best.
+        </p>
+        
+        <h1>
+            Problem Description
+        </h1>
+        <p>
+            In computer graphics, a point cloud is a set of points in a 3D space, 
+            while a mesh is a set of triangles. 
+        </p>
+        <p>
+            The ability to convert between point cloud and mesh formats is essential 
+            as certain applications require a specific format. 
+            For example, point clouds are commonly used for capturing 3D data from real-world objects, 
+            while meshes are often used for rendering and animation purposes. 
+        </p>
+        <p>
+            Converting one format to the other requires a fundamental change in the data structure, 
+            which can be complex and computationally expensive. 
+            Besides, the conversion process may result in a loss of information or introduce artifacts,
+            which is undesirable when we persue an equivalent conversion.
+        </p>
+        <p>
+            To achieve this goal, we plan to implement an existing algorithm that can accurately 
+            convert between point cloud and mesh formats. Specifically, we plan to implement 
+            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the more challenging paper</a>
+            mentioned in the Final Project Idea.
+        </p>
+        
+        <h2 align="middle">Goals and Deliverables</h2>
+        <h3>Part 1: Baseline Plan</h3>
+        <p>
+            We plan to develop a robust and efficient algorithm for converting point cloud to mesh and 
+            mesh to point cloud formats. The algorithm should be accurate and reliable. We plan to use 
+            Python to implement it to fully utilize the computational resources in an easy way.
+            Another goal is to reduce data loss and introduce minimal artifacts during the conversion process. 
+            The converted data should maintain its original quality, including texture, curvature, 
+            and features, as much as possible.
+        </p>
+        <p>
+            At last, optimize the conversion process to improve its performance and 
+            reduce computational complexity. 
+            This optimization should be achieved through techniques such as 
+            surface reconstruction and mesh simplification, minimizing the 
+            loss of data and improving the quality of the output.
+        </p>
+        <p>
+            To measure the performance, we will compute: Hausdorff distance between our result and the reference data,
+            running time, and scalability of our algorithm by measuring its performance on datasets of varying sizes.
+        </p>
+        <p>
+            We will document the algorithm development process, including the research, 
+            implementation, optimization, and evaluation, in a report or paper. 
+            The documentation will enable others to understand and replicate our work.
+        </p>
+        
+        
+        <h3>Part 2: Inspirational Plan</h3>
+        <p>
+            We also plan to extend the baseline plan to achieve the following goals:
+            <ol>
+                <li> Finding other mesh2point-clouds methods other than directly using the vertices in meshes</li>
+                <li> Extending the baseline pipeline(point clouds to meshes) to a 3-stage version: images->point clouds->meshes. The first
+                     stage can be solved by a existing NeRF-style method i.e. PointNeRF by Xu et al. 2022. 
+                </li>
+            </ol>
+        </p>
+        <h3>Goals</h3>
+        <p>
+            Our expectations are as follows:
+            <ol>
+                <li>For the first part, we expect equivalent rendering quality as the referred paper with optimized rendering speed.</li>
+
+                <li>For the second part, we don't expect any state-of-the-art result but hope to obtain a pipeline that works optimally.</li>   
+            </ol>
+        </p>
+        <h3>Schedule</h3>
+        
+            <ul>
+               <li> Week 1: 4/2 - 4/8</li>
+                <ul>
+                    <li>Proposal due 4/4, starter code</li>
+                </ul>
+              <li>Week 2: 4/9 - 4/15</li>
+              <ul><li>Outline code</li></ul>
+              <li>Week 3: 4/16 - 4/22</li>
+              <ul><li>Continue working on code + milestone</li></ul>
+              <li>Week 4: 4/23 - 4/29</li>
+              <ul><li>Milestone due 4/25 + continue working on code</li></ul>
+              <li>Week 5: 4/30 - 5/6</li>
+              <ul><li>Finalize code + final presentations and final deliverables due 5/4</li></ul>
+              </ul>
+            </ul>
+
+        
+        <h2 align="middle">Resources</h2>
+        <p>
+            We will implement the algorithm described in 
+            <a href="http://research.microsoft.com/en-us/um/people/hoppe/poissonrecon.pdf"> the paper</a>.
+            We will use <a href="http://graphics.stanford.edu/data/3Dscanrep/"> the Stanford 3D Scanning Repository</a> as 
+            our dataset.
+            Our advanced work needs to implement a NeRF-like algorithm, which is described in
+            <a href="https://github.com/Xharlie/pointnerf"> Point-NeRF</a>.
+        </p>
+
+    </body>
+</html>

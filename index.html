@@ -1,98 +1,97 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <style>
-        body {
-            padding: 100px;
-            width: 1000px;
-            margin: auto;
-            text-align: left;
-            font-weight: 300;
-            font-family: 'Open Sans', sans-serif;
-            color: #121212;
-        }
-        h1, h2, h3, h4 {
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-        </style>
-        <title>CS 184 Rasterizer</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
-    </head>
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <body>
+  <title>Computer Graphics</title>
 
-        <h1 align="middle">CS 184 Final Project: Variable lens raytracing and enhanced camera features</h1> 
-        <br />
-        <h1>Members</h1>
-        <p>
-            Amy Doo, Jordan Bell, Katlyn Ho, Su Latt Phone 
-        </p>
-        <h1>Summary</h1>
-        
-        <p>
-            Our project idea is to add functionality to the ray tracing engine that will allow it to render images as if the camera lens was composed of physical lenses rather than an approximation of lenses, while also being able to have the set of lenses used be based on user input. Additionally, we plan to add additional features that a real camera has, such as auto and pre-defined focus, flash, and auto brightness.
-        </p>
-        
-        <h1>
-            Problem Description
-        </h1>
-        <p>
-            In project 3, we modeled our camera as either having perfectly straight rays, or as having a single perfectly focused lens. In the real world, lenses are not so simple, and if we wanted to test what effect certain lens configurations could have on an image we would be unable to use the tool. By extending the raytracer to ray trace through physical lenses, we gain the ability to test lens effects before physically creating them, saving us from having to construct physical lenses or needing to work out complex math to determine the effect that it could have on the image. To extend this idea, we are implementing other characteristics of a camera to further help simulate physical cameras’ effects on images. These effects will be challenging as we will need to implement the various rules for light refracting through lenses, for every possible lens and for every set of lens configurations. We plan to implement these features by extending the project 3 raytracer. If we change how rays are generated before being sent through the raytracer, we can keep most of the features that we implemented before and prevent having to reimplement things. For changing focus, we can do some preprocessing on the image to determine possible pre-defined focus, and for autofocus we can create a heuristic to compare various values of focus to help decide on an optimal one. For flash and auto brightness we can either add an additional light element to the scene at the location of the camera, or do additional post processing on the image for auto brightness where we adjust every final pixel in the image.
+  <meta name="author" content="Jon Barron">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        </p>
-        
-        <h2 align="middle">Goals and Deliverables</h2>
-        <h3>Part 1: Baseline Plan</h3>
-        <p>
-            Our main goal with this project is to extend the raytracer we had previously implemented to include additional features, such as autofocus, manual focus, and flash that can simulate the capabilities of a physical camera. Some deliverables would include before and after images for flash and short videos demonstrating how autofocus and manual focus can be used and how they can change the image. Our baseline plan for these features would be having them all as command line arguments. 
-        </p>
-        <p>
-            To measure the performance, we are going to do a comparison of different lens configurations and ensure that the runtime should be around the same for all of them. For the quality, we will be basing it off of similar tests in the spec since the work done in this past project is a baseline for what we plan to implement in our project.
-        </p>
-        
-        
-        <h3>Part 2: Inspirational Plan</h3>
-        <p>
-            As mentioned in our baseline plan, our main goal is to “extend the raytracer we had previously implemented to include additional features, 
-            such as autofocus, manual focus, and flash that can simulate the capabilities of a physical camera.”  On top of these, if things go well 
-            and we have more time to further extend this project, for a new feature, we would like to try post-processing on the produced images for 
-            automatic brightness.  We will set a certain threshold to determine the middle ground for brightness to brighten an image if it’s too dark 
-            or darken an image if it’s too bright.<br /> To improve our current baseline plan, we would aim to convert parameter-setting on the terminal command 
-            line into an interactive part of the GUI in which the user can turn a dial or slider to change the focus or click a key or button to autofocus 
-            or enable flash.
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+</head>
 
-        </p>
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Computer Graphics</name>
+              </p>
+              <p>
+				Hi all, this webpage is for the reports of CS184. The css style is from <a href="https://jonbarron.info/">Jon Baron</a>.
+            </td>
+            <td style="padding:2.5%;width:40%;max-width:40%">
+              <!-- <a href="images/homepage.png"><img style="width:100%;max-width:100%" alt="profile photo" src="images/homepage.png" class="hoverZoomLink"></a> -->
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <heading>Projects</heading>
 
-        <h3>Schedule</h3>
-        
-            <ul>
-               <li> Week 1: 4/5 - 4/10</li>
-                <li>Proposal due 4/9</li>
-                <ul>
-                    <li>Jordan Bell: Title Summary, Problem Description, Goals and deliverables part 1</li>
-                    <li>Katlyn Ho: Goals and deliverables part 1, Tasks</li>
-                    <li>Su Latt: Goals and deliverables part 2</li>
-                    <li>Amy Doo: Resources</li>
-                </ul>
-              <li>Week 2: 4/11 - 4/17</li>
-              <ul><li>Proposal revisions + outline code</li></ul>
-              <li>Week 3: 4/18 - 4/24</li>
-              <ul><li>Continue working on code + milestone</li></ul>
-              <li>Week 4: 4/25 - 5/1</li>
-              <ul><li>Milestone due 4/27 + continue working on code</li></ul>
-              <li>Week 5: 5/2 - 5/8</li>
-              <ul><li>Finalize code + final presentations 5/6</li></ul>
-              <li>Week 6: 5/9 - 5/11</li>
-              <ul><li>Final deliverables due 5/11</li></ul>
-            </ul>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+			<tr>
+				<td style="padding:20px;width:25%;vertical-align:middle">
+				  <!-- <img src="proj1/images/lion.png" alt="PontTuset" width="160" style="border-style: none"> -->
+				</td>
+				<td width="75%" valign="middle">
+				  <a href="proposal/index.html" id="revisit">
+					<papertitle>Project Proposal</papertitle>
+				  </a>
+				  <br>
+				  <strong></strong>
+				  <br>
+				  <!-- <em>Feb 11, 2023</em> -->
+				  <br>
+				  <p></p>
+				</td>
+			  </tr>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+            <td width="75%" valign="middle">
+              <a href=milestone/index.html id="revisit">
+                <papertitle>Milestone</papertitle>
+              </a>
+              <br>
+              <strong></strong>
+              <br>
+              <!-- <em>Mar 11, 2023</em> -->
+              <br>
+              <p></p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <!-- <img src="proj2/images/overview.png" alt="PontTuset" width="160" style="border-style: none"> -->
+            </td>
+            <td width="75%" valign="middle">
+              <a href="final/index.html" id="revisit">
+                <papertitle>Final Report</papertitle>
+              </a>
+              <br>
+              <strong></strong>
+              <br>
+              <!-- <em>Mar 24, 2023</em> -->
+              <br>
+              <p></p>
+            </td>
+          </tr>
 
-        
-        <h2 align="middle">Resources</h2>
-        <p>
-            Our main reference will be an old <a href="https://cs184.eecs.berkeley.edu/sp16/article/19">spec</a> from a previous iteration of the class. We will be building off of someone’s ray tracer implementation from Project 3.
-            We will also use this <a href=https://www1.cs.columbia.edu/CAVE/publications/pdfs/Nayar_CVPR92.pdf>paper</a> to help make our autofocus algorithm efficient. We were also referencing this <a href=https://cs184.eecs.berkeley.edu/sp21/lecture/15/cameras-and-lenses>lecture</a> for our lens-ray interactions and auto focus methods.
-        </p>
+        </tbody>
+        </table>
 
-    </body>
+
+
+      </td>
+    </tr>
+  </table>
+</body>
+
 </html>

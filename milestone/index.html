@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <style>
+        body {
+            padding: 100px;
+            width: 1000px;
+            margin: auto;
+            text-align: left;
+            font-weight: 300;
+            font-family: 'Open Sans', sans-serif;
+            color: #121212;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        </style>
+        <title>CS 184 Rasterizer</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <h1 align="middle">CS 184 Final Project Milestone</h1> 
+        <br />
+        <h1>Members</h1>
+        <p>
+            <table>
+                <tr>
+                    <td width="200px"> Yinghao </td>
+                    <td> <i> zhangyinghao@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Yifan Wang </td>
+                    <td> <i> wyf020803@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Tianzhe Chu </td>
+                    <td> <i> chutzh@berkeley.edu </i> </td>
+                </tr>
+                <tr>
+                    <td width="200px"> Xueyang Yu </td>
+                    <td> <i> yuxy@berkeley.edu </i> </td>
+                </tr>
+            </table>
+        </p>
+
+        <h1>Summary</h1>
+        
+        <p>
+            Our proposed project aims to implement the conversion from point cloud to mesh formats.
+            By implementing this conversion process, we aim to enhance the flexibility and compatibility 
+            of 3D object representation in various applications, enabling users to work with the format 
+            that suits their needs best. We implement 
+            <a href="https://vgc.poly.edu/~csilva/papers/tvcg99.pdf"> the paper</a>
+            mentioned in the Final Project Idea.
+        </p>
+        
+        
+        
+		<h1>Milestone</h1>
+		<p>
+			We firstly use the original mesh as input to generate a point cloud with vertex normals as the input of our algorithm, 
+			which is shown in the following figures.
+		</p>
+
+		<div align="center">
+			<table style="width:100%">
+				<tr>
+					<td align="middle">
+						<img src="./images/input.png" width="400px" />
+						<figcaption align="middle">input mesh</figcaption>
+					</td>
+					<td align="middle">
+						<img src="./images/input-pointcloud.png" width="400px" />
+						<figcaption align="middle">output point cloud</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p>
+			After that, we use the point cloud with vertex normals as input to reconstruct a mesh, 
+			which is the most challenging part of this project. The simple idea is that we will use set a hyperparameter r
+            as radius
+			to construct a sphere, which will be "captured" by 3 points, and then we use these points to 
+			form a triangular face. 
+			Each step by rolling the sphere on the surface of the point cloud, we possibly construct a face 
+			(sometimes a face cannot be constructed due to unsatisfied conditions).
+            The following figure shows the result of different number of steps.
+		</p>
+		<div align="center">
+			<table style="width:100%">
+				<tr>
+					<td align="middle">
+						<img src="./images/2000-1.png" width="400px" />
+						<figcaption align="middle">2000 steps</figcaption>
+					</td>
+					<td align="middle">
+						<img src="./images/4400.png" width="400px" />
+						<figcaption align="middle">4400 steps</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p>
+			Clearly, with more faces generated, the mesh will be more accurate. But we can  find even with 4400 steps where our algorithm converges, we still
+			cannot get a perfect mesh. Compared with the original mesh, we can find that the main body, which is smoother and 
+			more continuous, is more easy to reconstruct. While the small details, such as the ears or the feet, are more difficult to
+			reconstruct.
+		</p>
+		<div align="center">
+			<table style="width:100%">
+				<tr>
+					<td align="middle">
+						<img src="./images/4400-tail.png" width="400px" />
+						<figcaption align="middle">main body</figcaption>
+					</td>
+					<td align="middle">
+						<img src="./images/4400-ear-back.png" width="400px" />
+						<figcaption align="middle">ear part</figcaption>
+					</td>
+					<td align="middle">
+						<img src="./images/4400-feet.png" width="400px" />
+						<figcaption align="middle">feet part</figcaption>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p>
+			By analysis, we can find the following problems:
+			<ol>
+                <li>The number of steps matters, but we can't reconstruct the mesh accurately by simply adding
+					more steps. We can compare the 4000 steps with 4400 steps. We can find that 4400 steps are more accurate,
+					but the ear part is still not reconstructed well. 
+				</li>
+				<div align="center">
+					<table style="width:100%">
+						<tr>
+							<td align="middle">
+								<img src="./images/4000-1.png" width="400px" />
+								<figcaption align="middle">4000 steps</figcaption>
+							</td>
+							<td align="middle">
+								<img src="./images/4400.png" width="400px" />
+								<figcaption align="middle">4400 steps</figcaption>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<li>The hyperparameter r is also important. We can find that if we set r too small, the sphere will be too small,
+					the faces formed by the point will be small. If the points are sparse in some area, 
+					the sphere is not captured and leads to a hole in the mesh.
+					But if we set r too large, the sphere will be too large. Some sunkens are omitted (imagine a large tire 
+                    rolling on uneven ground). 
+				</li>
+            </ol>
+		</p>
+
+        <h1>Plan</h1>
+        <ol>
+            <li> Find out why ears and feet do not seem decent. Our guess is about the conditions to create a triangle.  </li>
+            <li> Use increasing r in different steps to fix the problem of constant r. </li>
+            <li> Add some pre-processing to the input. The paper mentioned this but did not give details. </li>
+            <li> Measure the result through some metrics. </li>
+        </ol>
+
+        <h1>Video and Slides</h1>
+        <p>
+            Here is the link of our video and slides:
+            <ol>
+                <li> <a href="https://drive.google.com/file/d/1ZMtRtPHGASHo7fvJZ6OqPM6ov5oq7cGB/view?usp=share_link"> Video</a></li>
+                <li> <a href="https://docs.google.com/presentation/d/17OF_YV9kanWIKgiX_48YFhn5fK-O_WImtf2a6FW65vY/edit?usp=sharing"> Slides</a></li>
+            </ol>
+        </p>
+
+    </body>
+</html>
