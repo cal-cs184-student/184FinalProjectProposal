@@ -327,31 +327,27 @@
             <a href="https://drive.google.com/drive/folders/1sS_VQulc4rAOsnMdB3WCwOWO9XPYLyFM"> Full Visualization Results Link</a>
         </p>
 
-        <h1>What remains to be refined</h1>
+        <strong><p> Limitations of Ball Pivoting Algorithm </p></strong>
         <p>
             We can see the reconstruction of teapot:
             <div align="center">
                 <table style="width:100%">
                     <tr>
                         <td align="middle">
-                            <img src="./images/teapot-1.png" width="400px" />
+                            <img src="./images/teapot-1.png" width="320px" />
                             <figcaption align="middle"> The reconstruction of teapot</figcaption>
                         </td>
-                    </tr>
-                </table>
-            </div>
-            We can see the red circles in the image above. It illustrates that our algorithm cannot deal with the corners in the mesh. Since we can't 
-            make the ball to the bottom of the corner, the algorithm cannot find the hit point. 
-            <div align="center">
-                <table style="width:100%">
-                    <tr>
                         <td align="middle">
-                            <img src="./images/corner.png" width="400px" />
-                            <figcaption align="middle"> The reconstruction of teapot</figcaption>
+                            <img src="./images/corner.png" width="360px" />
+                            <figcaption align="middle"> A ball can nerver hit a point in a corner </figcaption>
                         </td>
                     </tr>
                 </table>
             </div>
+            <p>
+                We can see the red circles in the image above. It illustrates that our algorithm cannot deal with the corners in the mesh. 
+                The reason is that the ball cannot roll into the corner and a face is created aobve the corner.
+            </p>
         </p>
         <h1>Takeaways</h1>
         <p>
@@ -361,7 +357,7 @@
         </p>
         <p>
             While for the general point2mesh task, we think it interesting and worth to devote our efforts. 
-            In a higher level, it’s a perfect chance to dig into the area via searching for implementable methods to tackle a specific graphics task. 
+            In a higher level, it's a perfect chance to dig into the area via searching for implementable methods to tackle a specific graphics task. 
             Meanwhile, during the process, we find that some elegant algorithms often start from a simple heuristic, i.e. the one we implement, and oftentimes they work surprisingly well. 
             Despite the hard debugging time, we still enjoy the process of implementing the algorithm and the final results.
         </p>
